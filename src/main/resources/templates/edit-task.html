@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Task</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Edit Task</h1>
+
+<form th:action="@{/users/{userId}/tasks/{taskId}/edit(userId=${task.user.id}, taskId=${task.id})}"
+      method="post">
+  <div class="form-group">
+    <label>Title:</label>
+    <input type="text" th:field="*{task.title}" required>
+  </div>
+
+  <div class="form-group">
+    <label>Description:</label>
+    <textarea th:field="*{task.description}"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Due Date:</label>
+    <input type="datetime-local" th:field="*{task.dueDate}">
+  </div>
+
+  <div class="form-group">
+    <label>Status:</label>
+    <select th:field="*{task.completed}">
+      <option value="true">Completed</option>
+      <option value="false">Not Completed</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>User:</label>
+    <select th:field="*{task.user.id}">
+      <option th:each="user : ${users}"
+              th:value="${user.id}"
+              th:text="${user.username}"></option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn">Update Task</button>
+  <a th:href="@{/users/{userId}/tasks(userId=${task.user.id})}"
+     class="btn cancel">Cancel</a>
+</form>
+</body>
+</html>

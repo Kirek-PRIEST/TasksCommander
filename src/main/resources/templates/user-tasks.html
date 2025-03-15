@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Задачи пользователя</title>
+</head>
+<body>
+<h1>Задачи пользователя: [[${user.username}]]</h1>
+<a href="/">Назад к списку пользователей</a>
+
+<!-- Форма добавления задачи -->
+<h2>Добавить новую задачу</h2>
+<form th:action="@{/users/{userId}/tasks(userId=${user.id})}" method="post">
+    <input type="text" name="title" placeholder="Название" required><br>
+    <textarea name="description" placeholder="Описание"></textarea><br>
+    <input type="datetime-local" name="dueDate"><br>
+    <button type="submit">Добавить задачу</button>
+</form>
+
+<!-- Таблица задач -->
+<h2>Список задач</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Дата создания</th>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Срок выполнения</th>
+        <th>Статус</th>
+        <th>Выполнить</th>
+        <th>Изменить</th>
+        <th>Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <!-- Дата создания -->
+        <td th:text="${#temporals.format(task.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+
+        <!-- Название -->
+        <td th:text="${task.title}"></td>
+
+        <!-- Описание -->
+        <td th:text="${task.description}"></td>
+
+        <!-- Срок выполнения -->
+        <td>
+                    <span th:if="${task.dueDate != null}"
+                          th:text="${#temporals.format(task.dueDate, 'dd.MM.yyyy HH:mm')}"></span>
+            <span th:unless="${task.dueDate != null}">-</span>
+        </td>
+
+        <!-- Статус -->
+        <td th:text="${task.completed ? '✓ Выполнена' : '◯ Активна'}"></td>
+
+        <!-- Кнопка "Выполнить" -->
+        <td>
+                    <span th:if="${not task.completed}">
+                        <form th:action="@{/users/{userId}/tasks/{taskId}/complete(userId=${user.id}, taskId=${task.id})}"
+                              method="post">
+                            <button type="submit">Выполнить</button>
+                        </form>
+                    </span>
+            <span th:unless="${not task.completed}">-</span>
+        </td>
+
+        <!-- Изменить -->
+        <td>
+            <a th:href="@{/users/{userId}/tasks/{taskId}/edit(userId=${user.id}, taskId=${task.id})}">
+                Изменить
+            </a>
+        </td>
+
+        <!-- Удалить -->
+        <td>
+            <form th:action="@{/users/{userId}/tasks/{taskId}/delete(userId=${user.id}, taskId=${task.id})}"
+                  method="post">
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

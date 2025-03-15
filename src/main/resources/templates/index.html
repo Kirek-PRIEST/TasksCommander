@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Management</title>
+</head>
+<body>
+<h1>User Management</h1>
+
+<!-- Форма добавления пользователя -->
+<form th:action="@{/}" method="post">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Add User</button>
+</form>
+
+<!-- Блок ошибок -->
+<div th:if="${error}" style="color: red; margin: 10px 0;" th:text="${error}"></div>
+
+<!-- Таблица пользователей -->
+<table border="1" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+    <thead>
+    <tr>
+        <th>Имя</th>
+        <th>Дата регистрации</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td>
+            <a th:href="@{/users/{userId}/tasks(userId=${user.id})}"
+               th:text="${user.username}"></a>
+        </td>
+        <td th:text="${#temporals.format(user.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+        <td>
+            <a th:href="@{/edit/{id}(id=${user.id})}">Edit</a>
+        </td>
+        <td>
+            <form th:action="@{/delete/{id}(id=${user.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

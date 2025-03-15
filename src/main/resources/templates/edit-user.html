@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit User</title>
+</head>
+<body>
+<h1>Edit User</h1>
+
+<!-- Блок отображения ошибок -->
+<div th:if="${error}" style="color: red;" th:text="${error}"></div>
+
+<!-- Форма редактирования -->
+<form th:action="@{/edit/{id}(id=${user.id})}" method="post">
+  <input type="hidden" name="id" th:value="${user.id}">
+
+  <table>
+    <tr>
+      <td>Username:</td>
+      <td>
+        <input type="text"
+               name="username"
+               th:value="${user.username}"
+               required>
+      </td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td>
+        <input type="email"
+               name="email"
+               th:value="${user.email}"
+               required>
+      </td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td>
+        <input type="password"
+               name="password"
+               placeholder="New password">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button type="submit">Update User</button>
+        <a href="/" style="margin-left: 10px;">Cancel</a>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tasks</title>
+</head>
+<body>
+<h1 th:text="${user.username + ''s Tasks}"></h1>
+<a href="/">Back to Users</a>
+
+<h2>New Task</h2>
+<form th:action="@{/users/{userId}/tasks(userId=${user.id})}"
+      method="post">
+    <input type="text" th:field="*{newTask.title}" placeholder="Title">
+    <textarea th:field="*{newTask.description}" placeholder="Description"></textarea>
+    <input type="datetime-local" th:field="*{newTask.dueDate}">
+    <button type="submit">Add Task</button>
+</form>
+
+<h2>Task List</h2>
+<ul>
+    <li th:each="task : ${tasks}">
+        <span th:text="${#dates.format(task.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
+        - <span th:text="${task.title}"></span>
+        <span th:if="${task.completed}"
+              th:text="${#dates.format(task.dueDate, 'dd.MM.yyyy HH:mm')}"></span>
+        <span th:unless="${task.completed}">
+                <form th:action="@{/users/{userId}/tasks/{taskId}/complete(userId=${user.id}, taskId=${task.id})}"
+                      method="post">
+                    <button type="submit">Complete</button>
+                </form>
+            </span>
+    </li>
+</ul>
+</body>
+</html>
