@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Класс TaskController отвечает за обработку HTTP-запросов, связанных с задачами (Task).
+ * RESTful API для управления задачами - создание, чтение, обновление и удаление задач,
+ * а также их фильтрация и сортировка.
+ */
 @Controller
 @RequestMapping("/users/{userId}/tasks")
 public class TaskController {
@@ -25,8 +30,17 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    // Исправленный метод
-    @GetMapping // Был: @GetMapping("/users/{userId}/tasks")
+    /**
+     Список задач для указанного пользователя с возможностью фильтрации по статусу и сортировки по полям.
+     @param userId  ID пользователя
+     @param status  Фильтр по статусу задач
+     @param sort  Поле для сортировки
+     @param direction Выбор сортировки по убыванию/возрастанию
+     @param model Модель для передачи данных в представление.
+
+     @return строку для отображения отсортированного списка задач
+     */
+    @GetMapping
     public String getUserTasks(
             @PathVariable Long userId,
             @RequestParam(required = false) String status,
@@ -53,7 +67,12 @@ public class TaskController {
         return "user-tasks";
     }
 
-    // Остальные методы остаются без изменений, но проверьте пути:
+    /**
+     * Создание задачи для выбранного пользователя
+     * @param userId - ID пользователя
+     * @param task - Назначенная задача для пользователя
+     * @return Перенаправление на страницу списка задач пользователя
+     */
     @PostMapping
     public String createTask(@PathVariable Long userId, @ModelAttribute Task task) {
         userService.getUserById(userId).ifPresent(user -> {
@@ -63,6 +82,12 @@ public class TaskController {
         return "redirect:/users/{userId}/tasks";
     }
 
+    /**
+     * Отмечает задачу как выполненная
+     * @param userId ID пользователя
+     * @param taskId ID задачи
+     * @return Перенаправление на страницу списка задач пользователя
+     */
     @PostMapping("/{taskId}/complete")
     public String completeTask(
             @PathVariable Long userId,
@@ -72,6 +97,13 @@ public class TaskController {
         return "redirect:/users/{userId}/tasks";
     }
 
+    /**
+     * Форма для редактирования задачи
+     * @param userId ID пользователя
+     * @param taskId ID задачи
+     * @param model Модель для передачи данных в представление
+     * @return Имя шаблона Thymeleaf (edit-task.html), который отображает форму редактирования задачи.
+     */
     @GetMapping("/{taskId}/edit")
     public String showEditTaskForm(
             @PathVariable Long userId,
@@ -90,6 +122,13 @@ public class TaskController {
         return "edit-task";
     }
 
+    /**
+     * Метод для редактирования задачи
+     * @param userId ID пользователя
+     * @param taskId ID задачи
+     * @param task Задача, переданная из формы.
+     * @return Перенаправление на страницу задач пользователя
+     */
     @PostMapping("/{taskId}/edit")
     public String updateTask(
             @PathVariable Long userId,
@@ -99,6 +138,13 @@ public class TaskController {
         taskService.updateTask(taskId, task);
         return "redirect:/users/{userId}/tasks";
     }
+
+    /**
+     * Удаление задачи из списка задач пользователя
+     * @param userId ID пользователя
+     * @param taskId ID задачи
+     * @return Перенаправление на страницу задач пользователя
+     */
     @PostMapping("/{taskId}/delete")
     public String deleteTask(
             @PathVariable Long userId,

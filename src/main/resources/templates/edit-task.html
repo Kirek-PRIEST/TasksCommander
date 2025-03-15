@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Edit Task</title>
+  <title>Изменение задачи</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>Edit Task</h1>
+<h1>Изменение задачи</h1>
 
 <form th:action="@{/users/{userId}/tasks/{taskId}/edit(userId=${task.user.id}, taskId=${task.id})}"
       method="post">
   <div class="form-group">
-    <label>Title:</label>
+    <label>Название:</label>
     <input type="text" th:field="*{task.title}" required>
   </div>
 
   <div class="form-group">
-    <label>Description:</label>
+    <label>Описание:</label>
     <textarea th:field="*{task.description}"></textarea>
   </div>
 
   <div class="form-group">
-    <label>Due Date:</label>
+    <label>Выполнить до:</label>
     <input type="datetime-local" th:field="*{task.dueDate}">
   </div>
 
   <div class="form-group">
-    <label>Status:</label>
+    <label>Статус задачи:</label>
     <select th:field="*{task.completed}">
-      <option value="true">Completed</option>
-      <option value="false">Not Completed</option>
+      <option value="true">Завершено</option>
+      <option value="false">Не завершено</option>
     </select>
   </div>
 
   <div class="form-group">
-    <label>User:</label>
+    <label>Пользователь:</label>
     <select th:field="*{task.user.id}">
       <option th:each="user : ${users}"
               th:value="${user.id}"
@@ -41,9 +41,9 @@
     </select>
   </div>
 
-  <button type="submit" class="btn">Update Task</button>
+  <button type="submit" class="btn">Изменить задачу</button>
   <a th:href="@{/users/{userId}/tasks(userId=${task.user.id})}"
-     class="btn cancel">Cancel</a>
+     class="btn cancel">Отменить</a>
 </form>
 </body>
 </html>

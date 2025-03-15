@@ -38,7 +38,7 @@ public class UserController {
      * @param user Данные пользователя из формы
      * @param result Результаты валидации
      * @param model Модель для передачи ошибок
-     * @return Редирект на главную страницу или форму с ошибками
+     * @return Перенаправляет на главную страницу
      */
     @PostMapping("/")
     public String createUser(@ModelAttribute @Valid User user, BindingResult result, Model model) {
@@ -83,12 +83,12 @@ public class UserController {
     }
 
     /**
-     * Обновляет данные пользователя
+     * Метод для обновления данных пользователя
      * @param id ID пользователя для обновления
      * @param user Обновленные данные пользователя
      * @param result Результаты валидации
      * @param model Модель для передачи ошибок
-     * @return Редирект на главную страницу или форму с ошибками
+     * @return Перенаправление на главную страницу
      */
     @PostMapping("/edit/{id}")
     public String updateUser(

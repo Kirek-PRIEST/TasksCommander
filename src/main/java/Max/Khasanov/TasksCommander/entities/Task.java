@@ -1,6 +1,8 @@
 package Max.Khasanov.TasksCommander.entities;
+
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,7 +31,7 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Конструкторы
+    //region Конструкторы
     public Task() {
     }
 
@@ -44,8 +46,9 @@ public class Task {
         this.createdAt = createdAt;
         this.user = user;
     }
+    //endregion
 
-    // Геттеры и сеттеры
+    // region Геттеры и сеттеры
     public Long getId() {
         return id;
     }
@@ -102,10 +105,12 @@ public class Task {
         this.user = user;
     }
 
-    // Builder Pattern
+    //endregion
+
     public static TaskBuilder builder() {
         return new TaskBuilder();
     }
+
 
     public static class TaskBuilder {
         private Long id;
@@ -116,41 +121,49 @@ public class Task {
         private LocalDateTime createdAt;
         private User user;
 
+        //Устанавливает идентификатор задачи
         public TaskBuilder id(Long id) {
             this.id = id;
             return this;
         }
 
+        //Устанавливает название задачи
         public TaskBuilder title(String title) {
             this.title = title;
             return this;
         }
 
+        //Устанавливает описание задачи.
         public TaskBuilder description(String description) {
             this.description = description;
             return this;
         }
 
+        //Устанавливает срок выполнения задачи.
         public TaskBuilder dueDate(LocalDateTime dueDate) {
             this.dueDate = dueDate;
             return this;
         }
 
+        //Устанавливает статус выполнения задачи.
         public TaskBuilder completed(boolean completed) {
             this.completed = completed;
             return this;
         }
 
+        // Устанавливает дату создания задачи.
         public TaskBuilder createdAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
+        //Устанавливает пользователя, связанного с задачей.
         public TaskBuilder user(User user) {
             this.user = user;
             return this;
         }
 
+        //Создает объект Task с указанными параметрами
         public Task build() {
             return new Task(id, title, description, dueDate, completed, createdAt, user);
         }

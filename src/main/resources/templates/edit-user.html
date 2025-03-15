@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Edit User</title>
+  <title>Редактирование пользователя</title>
 </head>
 <body>
-<h1>Edit User</h1>
+<h1>Редактирование пользователя</h1>
 
 <!-- Блок отображения ошибок -->
 <div th:if="${error}" style="color: red;" th:text="${error}"></div>
@@ -15,7 +15,7 @@
 
   <table>
     <tr>
-      <td>Username:</td>
+      <td>Имя пользователя:</td>
       <td>
         <input type="text"
                name="username"
@@ -33,17 +33,17 @@
       </td>
     </tr>
     <tr>
-      <td>Password:</td>
+      <td>Пароль:</td>
       <td>
         <input type="password"
                name="password"
-               placeholder="New password">
+               placeholder="Новый пароль">
       </td>
     </tr>
     <tr>
       <td colspan="2">
-        <button type="submit">Update User</button>
-        <a href="/" style="margin-left: 10px;">Cancel</a>
+        <button type="submit">Изменить пользователя</button>
+        <a href="/" style="margin-left: 10px;">Отмена</a>
       </td>
     </tr>
   </table>

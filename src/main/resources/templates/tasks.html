@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Tasks</title>
+    <title>Список заданий</title>
 </head>
 <body>
 <h1 th:text="${user.username + ''s Tasks}"></h1>
-<a href="/">Back to Users</a>
+<a href="/">Назад к списку пользователей</a>
 
-<h2>New Task</h2>
+<h2>Новое задание</h2>
 <form th:action="@{/users/{userId}/tasks(userId=${user.id})}"
       method="post">
     <input type="text" th:field="*{newTask.title}" placeholder="Title">
     <textarea th:field="*{newTask.description}" placeholder="Description"></textarea>
     <input type="datetime-local" th:field="*{newTask.dueDate}">
-    <button type="submit">Add Task</button>
+    <button type="submit">Добавить задание</button>
 </form>
 
-<h2>Task List</h2>
+<h2>Список заданий</h2>
 <ul>
     <li th:each="task : ${tasks}">
         <span th:text="${#dates.format(task.createdAt, 'dd.MM.yyyy HH:mm')}"></span>
@@ -26,7 +26,7 @@
         <span th:unless="${task.completed}">
                 <form th:action="@{/users/{userId}/tasks/{taskId}/complete(userId=${user.id}, taskId=${task.id})}"
                       method="post">
-                    <button type="submit">Complete</button>
+                    <button type="submit">Завершить</button>
                 </form>
             </span>
     </li>
